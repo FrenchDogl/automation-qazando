@@ -1,58 +1,52 @@
 /// <reference types = "cypress" />
 
-const cadastroPage = require('../support/pages/cadastroPage')
-const { faker } = require("@faker-js/faker")
+const { faker } = require('@faker-js/faker')
+const registerPage = require('../support/pages/cadastroPage')
 
 let name, email, password
 
 beforeEach(() => {
-    cy.visit('/register')
+    registerPage.abrirCadastro()
     name = faker.person.fullName()
     email = faker.internet.email()
     password = faker.internet.password({ length: 6 })
-
 })
 
 describe('Cadastro de Clientes', () => {
     it('Cadastro com Sucesso', () => {
-        cadastroPage.nomeCompleto(name)
-        cadastroPage.informarEmail(email)
-        cadastroPage.informarSenha(password)
-        cadastroPage.clicarRegistrar()
-        cadastroPage.registroRealizado(name)
+        registerPage.realizarCadastroCompleto(name, email, password)
+        registerPage.verificarSucessoCadastro(name)
     })
-    it('Cadastro sem Nome', () => {
-        cadastroPage.informarEmail(email)
-        cadastroPage.informarSenha(password)
-        cadastroPage.clicarRegistrar()
-        cadastroPage.erroNome()
+    it('Cadastro Sem Nome', () => {
+        registerPage.informarEmail(email)
+        registerPage.informarSenha(password)
+        registerPage.cadastrar()
+        registerPage.verificarNomeIncorreto()
     })
-    it('Cadastro sem Email', () => {
-        cadastroPage.nomeCompleto(name)
-        cadastroPage.informarSenha(password)
-        cadastroPage.clicarRegistrar()
+    it('Cadastro Sem Email', () => {
+        registerPage.informarNome(name)
+        registerPage.informarSenha(password)
+        registerPage.cadastrar()
+        registerPage.verificarEmailIncorreto()
     })
-    it('Cadastro com Email inválido', () => {
-        email = faker.person.fullName()
-
-        cadastroPage.nomeCompleto(name)
-        cadastroPage.informarSenha(password)
-        cadastroPage.clicarRegistrar()
-        cadastroPage.erroEmail()
+    it('Cadastro com Email incorreto', () => {
+        registerPage.informarNome(name)
+        registerPage.erroEmail(email)
+        registerPage.informarSenha(password)
+        registerPage.cadastrar()
+        registerPage.verificarEmailIncorreto()
     })
-    it('Cadastro sem Senha', () => {
-        cadastroPage.nomeCompleto(name)
-        cadastroPage.informarEmail(email)
-        cadastroPage.clicarRegistrar()
-        cadastroPage.erroSenha()
+    it('Cadastro Sem Senha', () => {
+        registerPage.informarNome(name)
+        registerPage.informarEmail(email)
+        registerPage.cadastrar()
+        registerPage.verificarSenhaIncorreta()
     })
-    it('Cadastro com Senha Inválida', () => {
-        password = faker.internet.password({length: 5})
-
-        cadastroPage.nomeCompleto(name)
-        cadastroPage.informarEmail(email)
-        cadastroPage.informarSenha(password)
-        cadastroPage.clicarRegistrar()
-        cadastroPage.erroSenha()
+    it.only('Cadastro Com Senha Incorreta', () => {
+        registerPage.informarNome(name)
+        registerPage.informarEmail(email)
+        registerPage.erroSenha(password)
+        registerPage.cadastrar()
+        registerPage.verificarSenhaIncorreta()
     })
 })

@@ -20,23 +20,20 @@ describe('Teste de Login', () => {
         loginPage.clicarLogin(email)
     })
     it('Login com Email incorreto', () => {
+        cy.get('#materialUnchecked').check()
         loginPage.preencherEmail(name)
         loginPage.preencherSenha(password)
-        cy.get('#materialUnchecked').check()
         loginPage.emailInválido(email)
     })
     it('Login sem Email', () => {
-        loginPage.preencherSenha(password)
         cy.get('#materialUnchecked').check()
+        loginPage.preencherSenha(password)
         loginPage.emailInválido(email)
     })
     it('Login com Senha incorreta', () => {
-        password = faker.internet.password({ length: 2 })
-
-        loginPage.preencherEmail(email)
-        loginPage.preencherSenha(password)
         cy.get('#materialUnchecked').check()
-        loginPage.senhaInvalida(email)
+        loginPage.preencherEmail(email)
+        loginPage.senhaInvalida(password)
     })
     it('Login sem Senha', () => {
         loginPage.preencherEmail(email)
