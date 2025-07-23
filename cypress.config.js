@@ -5,7 +5,8 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: "https://automationpratice.com.br",
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      mochawesome(on); // Ativando o plugin aqui
+      return config;
     },
     specPattern: 'cypress/e2e/**/*.cy.js',
   },
