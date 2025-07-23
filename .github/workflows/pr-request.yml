@@ -9,11 +9,10 @@ jobs:
   cypress-run:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
+      - name: Baixando Projeto
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
+
+      - name: Executando teste cypress
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
