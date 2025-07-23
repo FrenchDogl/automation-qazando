@@ -1,32 +1,24 @@
 name: Cypress tests
 
 on: push
-  # pull_request:
-  #   branches:
-  #     - main
 
 jobs:
   cypress-run:
     runs-on: ubuntu-24.04
     steps:
-
-      - name: Instalando dependências
-        run: npm install
-        
       - name: Baixando Projeto
         uses: actions/checkout@v4
 
-      - name: Executando teste cypress
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          spec: cypress/e2e/login.cy.js
-      
+      - name: Instalando dependências
+        run: npm install
+
+      - name: Executando testes com Cypress + Mochawesome
+        run: npx cypress run --browser chrome --spec cypress/e2e/login.cy.js
+
       - name: Upload Mochawesome Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: mochawesome-report
-          path: mochawesome-report # Caminho onde o relatório está salvo
-          continue-on-error: true
-          retention-days: 3 # Define que o artifact expira em 3 dias
+          path: mochawesome-report
+        continue-on-error: true
