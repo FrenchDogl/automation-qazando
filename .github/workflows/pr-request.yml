@@ -9,6 +9,10 @@ jobs:
   cypress-run:
     runs-on: ubuntu-24.04
     steps:
+
+      - name: Instalando dependências
+        run: npm install
+        
       - name: Baixando Projeto
         uses: actions/checkout@v4
 
